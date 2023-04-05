@@ -58,7 +58,7 @@ function makeHtmlBoard() {
       // you'll use this later, so make sure you use c-y-x
       cell.setAttribute("id", `c-${y}-${x}`);
       // TODO: append the table cell to the table row
-      row.append(cell)
+      row.append(cell);
     }
     // TODO: append the row to the html board
     htmlBoard.append(row);
@@ -69,26 +69,39 @@ function makeHtmlBoard() {
 
 function findSpotForCol(x) {
   // TODO: write the real version of this, rather than always returning 5
+  
   return 5;
 }
 
 /** placeInTable: update DOM to place piece into HTML table of board */
 
+
 function placeInTable(y, x) {
+  let piece = document.createElement('div');
+  if (currPlayer === 1) {
+    piece.className = "piece p1";
+  } else {
+    piece.className = "piece p2";
+  }
+  document.getElementById(`c-${y}-${x}`).append(piece);
+
   // TODO: make a div and insert into correct table cell
+
+
 }
 
 /** endGame: announce game end */
 
 function endGame(msg) {
   // TODO: pop up alert message
+
 }
 
 /** handleClick: handle click of column top to play piece */
 
 function handleClick(evt) {
   // get x from ID of clicked cell
-  let x = +evt.target.id;
+  let x =parseInt(+evt.target.id);
 
   // get next spot in column (if none, ignore click)
   let y = findSpotForCol(x);
@@ -98,6 +111,8 @@ function handleClick(evt) {
 
   // place piece in board and add to HTML table
   // TODO: add line to update in-memory board
+  board[y][x] = currPlayer;
+  console.log(y,x);
   placeInTable(y, x);
 
   // check for win
@@ -107,9 +122,25 @@ function handleClick(evt) {
 
   // check for tie
   // TODO: check if all cells in board are filled; if so call, call endGame
+  let tie = true;
+  for (let y = 0; y < WIDTH; y++) {
+    for (let x = 0; x < HEIGHT; x++) {
+      if (board[y][x] === null) {
+        tie = false;
+      }
+    }
 
-  // switch players
+  }
+
+  if (tie) {
+    return endGame(`its a tie`);
+  }
   // TODO: switch currPlayer 1 <-> 2
+  if (currPlayer === 1) {
+    currPlayer = 2;
+  } else {
+    currPlayer = 1;
+  }
 }
 
 /** checkForWin: check board cell-by-cell for "does a win start here?" */
