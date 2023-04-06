@@ -95,7 +95,7 @@ function placeInTable(y, x) {
 /** endGame: announce game end */
 
 function endGame(msg) {
-  // TODO: pop up alert message
+  alert(msg);
 
 }
 
@@ -155,6 +155,22 @@ function checkForWin() {
    * currPlayer
    */
   function _win(cells) {
+    if(
+      board[cells[0][1]][cells[0][0]] === null ||
+      board[cells[0][1]][cells[1][1]] === null ||
+      board[cells[0][2]][cells[1][2]] === null ||
+      board[cells[0][3]][cells[1][3]] === null
+    ){
+      return false;
+    }
+    if(
+      board[cells[0][1]][cells[0][0]] === board[cells[0][1]][cells[1][1]] &&
+      board[cells[0][1]][cells[1][1]] === board[cells[0][2]][cells[1][2]] &&
+      board[cells[0][2]][cells[1][2]] === board[cells[0][3]][cells[1][3]]
+    ){
+      return true;
+    }
+    return false
 
     // TODO: Check four cells to see if they're all legal & all color of current
     // player
@@ -172,9 +188,9 @@ function checkForWin() {
       // [ [y, x], [y, x], [y, x], [y, x] ]
 
       let horiz = [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]];
-      let vert;
-      let diagDL;
-      let diagDR;
+      let vert = [[y, x], [y + 1, x], [y + 2, x], [y + 3, x]];
+      let diagDL = [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]];
+      let diagDR = [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]];
 
       // find winner (only checking each win-possibility as needed)
       if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {
